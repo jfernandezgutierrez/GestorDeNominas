@@ -1,17 +1,24 @@
 <template>
-  <router-view />
+  <template v-if="user">
+    <router-view />
+  </template>
+  <div v-if="!user && user !== undefined">
+    <p>Login/Registro</p>
+  </div>
 </template>
 <script>
 import { auth } from "./utils/firebase";
-import { onMounted } from "vue";
+import { onMounted, computed } from "vue";
 import { useStore } from "vuex";
 export default {
   name: "App",
   setup() {
-    const store = userStore();
-    const user = store.state.user;
+    const store = useStore();
+    const user = computed(() => store.state.user);
+    // const user = store.state.user;
     onMounted(() => {
       auth.onAuthStateChanged((user) => {
+        store.commit("setUser", user);
         console.log(user);
       });
     });
