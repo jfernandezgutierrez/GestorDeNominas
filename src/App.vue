@@ -2,16 +2,18 @@
   <template v-if="user">
     <router-view />
   </template>
-  <div v-if="!user && user !== undefined">
-    <p>Login/Registro</p>
-  </div>
+  <Auth v-if="!user && user !== undefined" />
 </template>
 <script>
 import { auth } from "./utils/firebase";
 import { onMounted, computed } from "vue";
 import { useStore } from "vuex";
+import Auth from "./views/Auth.vue";
 export default {
   name: "App",
+  components: {
+    Auth,
+  },
   setup() {
     const store = useStore();
     const user = computed(() => store.state.user);
