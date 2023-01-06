@@ -123,6 +123,3 @@ export default {
   }
 }
 </style>
-Footer © 2023 GitHub, Inc. Footer navigation Terms Privacy Security Status Docs
-Contact GitHub Pricing API Training Blog About payroll-manager_vue/Register.vue
-at master · xAgustin93/payroll-manager_vue
