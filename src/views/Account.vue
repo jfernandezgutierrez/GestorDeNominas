@@ -3,8 +3,19 @@
     <BasicLayoutVue>
       <h1>Bienvenido a los ajustes</h1>
       <div class="account_section">
-        <p class="title">Cambiar nombre</p>
-        <div>FORM</div>
+        <p class="title">
+          Cambiar nombres<span v-if="user.displayName"
+            >({{ user.displayName }})</span
+          >
+        </p>
+        <ChangeName />
+      </div>
+
+      <div class="account_section">
+        <p class="title">
+          Cambiar email<span v-if="user.email">({{ user.email }})</span>
+        </p>
+        <ChangeEmail />
       </div>
     </BasicLayoutVue>
   </div>
@@ -12,10 +23,23 @@
 
 <script>
 import BasicLayoutVue from "@/layouts/BasicLayout.vue";
+import { computed } from "vue";
+import { useStore } from "vuex";
+import ChangeName from "../components/Account/ChangeName.vue";
+import ChangeEmail from "@/components/Account/ChangeEmail.vue";
 export default {
   name: "Acount",
   components: {
     BasicLayoutVue,
+    ChangeName,
+    ChangeEmail,
+  },
+  setup() {
+    const store = useStore();
+    const user = computed(() => store.state.user);
+    return {
+      user,
+    };
   },
 };
 </script>
