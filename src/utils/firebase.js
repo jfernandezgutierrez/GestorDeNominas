@@ -1,5 +1,6 @@
 // Import the functions you need from the SDKs you need
 import firebase from "firebase/compat/app";
+
 //import firebase from "firebase/installations;
 import "firebase/compat/auth";
 import "firebase/compat/storage";
@@ -23,4 +24,4 @@ const storage = firebase.storage();
 const db = firebase.firestore();
 
 //Eports
-export {auth}
+export {auth,storage,db}
