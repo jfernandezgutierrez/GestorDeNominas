@@ -39,6 +39,7 @@ export default {
             displayName: name.value,
           });
           store.dispatch("reloadUser");
+          debugger;
         } catch (error) {
           console.log(error);
         }

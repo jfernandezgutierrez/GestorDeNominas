@@ -1,20 +1,29 @@
 <template>
-  <form class="ui form change-email" @submit.prevent="onChangeEmail">
+  <form class="ui form change-paswword" @submit.prevent="onChangePassword">
     <div class="two fields">
-      <div class="field">
-        <input
-          type="text"
-          placeholder="Nuevo email"
-          v-model="formData.email"
-          :class="{ error: formError.email }"
-        />
-      </div>
       <div class="field">
         <input
           type="password"
           placeholder="Contraseña actual"
           v-model="formData.password"
           :class="{ error: formError.password }"
+        />
+      </div>
+
+      <div class="field">
+        <input
+          type="password"
+          placeholder="Nueva contraseña"
+          v-model="formData.passwordNew"
+          :class="{ error: formError.passwordNew }"
+        />
+      </div>
+      <div class="field">
+        <input
+          type="password"
+          placeholder="Repetir contraseña"
+          v-model="formData.passwordNew2"
+          :class="{ error: formError.passwordNew2 }"
         />
       </div>
     </div>
@@ -31,27 +40,31 @@ import * as Yup from "yup";
 import { reauthenticate } from "../../utils/firebaseFunctions";
 import { auth } from "../../utils/firebase";
 export default {
-  title: "ChangeEmail",
+  title: "ChangePassword",
   setup() {
     let formData = {};
     let formError = ref({});
     let messageError = ref("");
     let loading = ref(false);
     const schemeForm = Yup.object().shape({
-      email: Yup.string().email(true).required(true),
       password: Yup.string().required(true),
+      passwordNew: Yup.string().required(true),
+      passwordNew2: Yup.string()
+        .required(true)
+        .oneOf([Yup.ref("passwordNew")], true),
     });
-    const onChangeEmail = async () => {
+    const onChangePassword = async () => {
+      debugger;
       formError.value = {};
       messageError.value = "";
       loading.value = true;
       try {
         await schemeForm.validate(formData, { abortEarly: false });
         try {
-          const { email, password } = formData;
-
+          debugger;
+          const { password, passwordNew } = formData;
           await reauthenticate(password);
-          await auth.currentUser.updateEmail(email);
+          await auth.currentUser.updatePassword(passwordNew);
           auth.signOut();
         } catch (error) {
           console.log(error);
@@ -68,7 +81,7 @@ export default {
       formData,
       formError,
       messageError,
-      onChangeEmail,
+      onChangePassword,
       loading,
     };
   },
@@ -76,7 +89,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.ui.form.change-email {
+.ui.form.change-paswword {
   text-align: center;
   input.error {
     border-color: #faa;
